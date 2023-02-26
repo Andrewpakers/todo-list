@@ -1,0 +1,45 @@
+body {
+    display: flex;
+}
+.navbar {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    width: 30vw;
+    background-color: rgb(202,232,201);
+    border: 3px solid #73AD21;
+    align-items: center;
+}
+.navbarItem {
+    color: black;
+}
+.popup {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 300px;
+    height: 300px;
+    border: 3px solid #73AD21;
+    background-color: rgb(202,232,201);
+}
+.selected {
+    background-color: yellow;
+}
+.popup {
+    display: flex;
+    flex-direction: column;
+}
+.contentContainer {
+    display: flex;
+    flex-wrap: wrap;
+}
+.todoItem {
+    background-color: rgb(202,232,201);
+    border: 3px solid #73AD21;
+    margin: 10px;
+    display: flex;
+    flex-direction: column;
+    height: 300px;
+    width: 150px;
+}
