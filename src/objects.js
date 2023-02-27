@@ -1,4 +1,7 @@
 /* eslint-disable no-plusplus */
+
+import { storageAvailable } from "./buttons";
+
 /* eslint-disable no-underscore-dangle */
 export const toDoItem = (tempTitle, tempDescription, tempDueDate, tempPriority = 1, tempNotes = '', tempChecklist = []) => {
     // initialize variables
@@ -72,8 +75,28 @@ export const projectItem = (tempTitle, tempDueDate) => {
 }
 
 export const trackProjects = (() => {
-    const allTodos = projectItem('All Projects', null);
-    const _projects = [allTodos];
+    const _projects = [];
+    if (storageAvailable('localStorage')) {
+        if (localStorage.getItem('allProjects')) {
+            // parse JSON String to get Object
+            const allProjectsObjects = JSON.parse(localStorage.getItem('allProjects'));
+            // iterate to convert objects to factor functions
+            for (let i = 0; i < allProjectsObjects.length; i++) {
+                const tempProject = projectItem(allProjectsObjects[i].title, allProjectsObjects[i].dueDate);
+                for (let j = 0; j < allProjectsObjects[i].todoItems.length; j++) {
+                    const tempTodo = toDoItem(allProjectsObjects[i].todoItems[j].title, allProjectsObjects[i].todoItems[j].description, allProjectsObjects[i].todoItems[j].dueDate, allProjectsObjects[i].todoItems[j].priority, allProjectsObjects[i].todoItems[j].notes, allProjectsObjects[i].todoItems[j].checklist);
+                    tempProject.addTodo(tempTodo);
+                }
+                _projects.push(tempProject);
+            }
+        } else {
+            const allTodos = projectItem('All Projects', null);
+            _projects.push(allTodos);         
+        }
+    } else {
+        const allTodos = projectItem('All Projects', null);
+        _projects.push(allTodos);
+    }
     const addProject = (newProject) => {
         _projects.push(newProject);
     }
